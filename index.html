@@ -14,15 +14,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* ==========================================================================
-           1. CSS VARIABLES & THEMING (BLOODY DARK ROMANCE / LIGHT ROSE)
-           ========================================================================== */
         :root {
-            /* Default Dark Mode (Bloody Dark Romance) */
+            /* Dark Mode (Bloody Dark Romance) */
             --bg-base: #070709;
             --bg-surface: #0f0f14;
             --bg-card: #15151d;
-            --bg-card-hover: #1c1c27;
             --border-color: rgba(220, 20, 60, 0.2);
             --border-focus: #dc143c;
             
@@ -35,10 +31,8 @@
             --accent-glow: rgba(220, 20, 60, 0.35);
             --accent-subtle: rgba(220, 20, 60, 0.1);
             
-            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 15px rgba(220, 20, 60, 0.05);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
             --nav-bg: rgba(7, 7, 9, 0.85);
-            
-            --transition-speed: 0.3s;
             --radius-sm: 6px;
             --radius-md: 12px;
             --radius-lg: 20px;
@@ -49,7 +43,6 @@
             --bg-base: #f4f4f7;
             --bg-surface: #ffffff;
             --bg-card: #ffffff;
-            --bg-card-hover: #f0f0f5;
             --border-color: rgba(233, 30, 99, 0.25);
             --border-focus: #e91e63;
             
@@ -57,1090 +50,147 @@
             --text-secondary: #555566;
             --text-muted: #888899;
             
-            --accent: #e91e63;           /* Rose / Hot Pink */
+            --accent: #e91e63;           /* Hot Pink */
             --accent-hover: #ff2a75;
             --accent-glow: rgba(233, 30, 99, 0.25);
             --accent-subtle: rgba(233, 30, 99, 0.08);
             
-            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 0 15px rgba(233, 30, 99, 0.05);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
             --nav-bg: rgba(244, 244, 247, 0.85);
         }
 
-        /* ==========================================================================
-           2. BASE STYLES
-           ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
-        }
-
-        body {
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        h1, h2, h3, h4, .font-heading {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 1px;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button, input, select, textarea {
-            font-family: inherit;
-            font-size: inherit;
-        }
-
-        /* Ambient Glow Background */
-        .ambient-glow {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at 50% 20%, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 0;
-            transition: opacity var(--transition-speed) ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ==========================================================================
-           3. NAVIGATION & HEADER
-           ========================================================================== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
-        }
-
-        .nav-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 900;
-            font-size: 1.3rem;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .brand-logo i {
-            color: var(--accent);
-            filter: drop-shadow(0 0 8px var(--accent-glow));
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-link {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
-            position: relative;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--accent);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.2s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .theme-toggle-btn {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .theme-toggle-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
-        }
-
-        /* ==========================================================================
-           4. HERO SECTION
-           ========================================================================== */
-        .hero {
-            padding: 180px 0 100px;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: var(--accent-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 24px;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-        }
-
-        .hero-title span {
-            color: var(--accent);
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 650px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-        }
-
-        .hero-cta {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: var(--accent);
-            color: #ffffff;
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 25px var(--accent-glow);
-        }
-
-        .btn-secondary {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* ==========================================================================
-           5. PORTFOLIO SHOWCASE SECTION
-           ========================================================================== */
-        .section {
-            padding: 90px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .section-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        .portfolio-filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 18px;
-            border-radius: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--accent-subtle);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .portfolio-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .portfolio-item:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent);
-            box-shadow: 0 12px 30px var(--accent-glow);
-        }
-
-        .portfolio-thumb {
-            width: 100%;
-            height: 220px;
-            background-color: var(--bg-surface);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .portfolio-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .portfolio-item:hover .portfolio-thumb img {
-            transform: scale(1.05);
-        }
-
-        .portfolio-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(7, 7, 9, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .portfolio-item:hover .portfolio-overlay {
-            opacity: 1;
-        }
-
-        .portfolio-overlay i {
-            color: #ffffff;
-            background: var(--accent);
-            padding: 12px;
-            border-radius: 50%;
-            transform: scale(0.8);
-            transition: transform 0.2s ease;
-        }
-
-        .portfolio-item:hover .portfolio-overlay i {
-            transform: scale(1);
-        }
-
-        .portfolio-info {
-            padding: 16px;
-        }
-
-        .portfolio-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .portfolio-tag {
-            font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        /* Lightbox Modal */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 24px;
-        }
-
-        .lightbox.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .lightbox-content {
-            max-width: 900px;
-            width: 100%;
-            max-height: 85vh;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 1px solid var(--accent);
-            box-shadow: 0 0 40px var(--accent-glow);
-            position: relative;
-        }
-
-        .lightbox-content img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            background: var(--bg-surface);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2010;
-        }
-
-        /* ==========================================================================
-           6. SERVICES & PRICING
-           ========================================================================== */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-        }
-
-        .service-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 32px 24px;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px var(--accent-glow);
-        }
-
-        .service-card.featured {
-            border-color: var(--accent);
-            background: linear-gradient(180deg, var(--bg-card) 0%, var(--accent-subtle) 100%);
-        }
-
-        .service-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 12px;
-            letter-spacing: 1px;
-        }
-
-        .service-header {
-            margin-bottom: 20px;
-        }
-
-        .service-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--accent-subtle);
-            color: var(--accent);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .service-name {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .service-price {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--accent);
-            font-family: 'Cinzel', serif;
-        }
-
-        .service-price span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .service-features {
-            list-style: none;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .service-features li {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .service-features li i {
-            color: var(--accent);
-            width: 16px;
-        }
-
-        /* ==========================================================================
-           7. ORDER CHECKOUT FORM & DISCORD WEBHOOK
-           ========================================================================== */
-        .order-section {
-            background: var(--bg-surface);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            padding: 40px;
-            box-shadow: var(--card-shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            transition: all 0.2s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--border-focus);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .gift-info-box {
-            background: var(--accent-subtle);
-            border: 1px dashed var(--accent);
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .gift-info-box i {
-            color: var(--accent);
-            margin-top: 2px;
-        }
-
-        .status-msg {
-            margin-top: 16px;
-            padding: 12px;
-            border-radius: var(--radius-sm);
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .status-msg.success {
-            display: block;
-            background: rgba(46, 204, 113, 0.15);
-            border: 1px solid #2ecc71;
-            color: #2ecc71;
-        }
-
-        .status-msg.error {
-            display: block;
-            background: rgba(231, 76, 60, 0.15);
-            border: 1px solid #e74c3c;
-            color: #e74c3c;
-        }
-
-        /* ==========================================================================
-           8. FAQ & ACCORDION
-           ========================================================================== */
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .faq-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: border-color 0.2s ease;
-        }
-
-        .faq-header {
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .faq-header i {
-            color: var(--accent);
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.active .faq-header i {
-            transform: rotate(180deg);
-        }
-
-        .faq-content {
-            padding: 0 24px 20px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            display: none;
-        }
-
-        .faq-item.active .faq-content {
-            display: block;
-        }
-
-        /* ==========================================================================
-           9. FOOTER
-           ========================================================================== */
-        footer {
-            margin-top: auto;
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-color);
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .footer-logo {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-logo i {
-            color: var(--accent);
-        }
-
-        /* ==========================================================================
-           10. RESPONSIVE DESIGN
-           ========================================================================== */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none; /* Can be expanded for mobile menu if needed */
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding: 140px 0 60px;
-            }
-
-            .order-section {
-                padding: 24px;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; background-color: var(--bg-base); color: var(--text-primary); }
+        body { min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        h1, h2, h3, .font-heading { font-family: 'Cinzel', serif; letter-spacing: 1px; }
+        a { color: inherit; text-decoration: none; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; width: 100%; }
+
+        header { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: var(--nav-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+        .nav-wrapper { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+        .brand-logo { font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+        .brand-logo i { color: var(--accent); }
+
+        .theme-toggle-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        .hero { padding: 140px 0 60px; text-align: center; }
+        .hero-title { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900; margin-bottom: 16px; }
+        .hero-title span { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+        .hero-subtitle { color: var(--text-secondary); max-width: 600px; margin: 0 auto 30px; font-size: 1rem; line-height: 1.6; }
+
+        .section { padding: 60px 0; border-bottom: 1px solid var(--border-color); }
+        .section-title { font-size: 2rem; text-align: center; margin-bottom: 10px; }
+        .section-desc { text-align: center; color: var(--text-secondary); margin-bottom: 40px; }
+
+        .order-section { background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 32px; max-width: 700px; margin: 0 auto; box-shadow: var(--card-shadow); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .form-control { width: 100%; padding: 12px 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); }
+        .form-control:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 10px var(--accent-glow); }
+        textarea.form-control { resize: vertical; min-height: 90px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .btn { padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; transition: all 0.2s ease; }
+        .btn-primary { background-color: var(--accent); color: #fff; box-shadow: 0 0 15px var(--accent-glow); width: 100%; }
+        .btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
+
+        footer { padding: 30px 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .order-section { padding: 20px; } }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Glow Effect -->
-    <div class="ambient-glow"></div>
-
-    <!-- Navigation Header -->
     <header>
         <div class="container nav-wrapper">
             <a href="#" class="brand-logo">
                 <i data-lucide="flame"></i>
                 <span>SANCTUM STUDIO</span>
             </a>
-
-            <ul class="nav-menu">
-                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#order" class="nav-link">Order Now</a></li>
-                <li><a href="#faq" class="nav-link">FAQ</a></li>
-            </ul>
-
-            <div class="nav-actions">
-                <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Light/Dark Mode">
-                    <i data-lucide="moon" id="themeIcon"></i>
-                </button>
-            </div>
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <i data-lucide="moon" id="themeIcon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main>
-        <!-- Hero Section -->
         <section class="hero">
             <div class="container">
-                <div class="hero-badge">
-                    <i data-lucide="sparkles"></i> High Quality Custom Designs
-                </div>
-                <h1 class="hero-title">Elevate Your <span>Digital Realm</span></h1>
-                <p class="hero-subtitle">
-                    Exquisite anime graphics, gaming banners, thumbnails & motion animations crafted with high-end AI precision and manual artistry.
-                </p>
-                <div class="hero-cta">
-                    <a href="#order" class="btn btn-primary">
-                        <i data-lucide="shopping-bag"></i> Place an Order
-                    </a>
-                    <a href="#portfolio" class="btn btn-secondary">
-                        <i data-lucide="eye"></i> View Portfolio
-                    </a>
-                </div>
+                <h1 class="hero-title">SANCTUM <span>STUDIO</span></h1>
+                <p class="hero-subtitle">High-End Digital Graphics, Avatars, Headers & Animated Motion Assets.</p>
             </div>
         </section>
 
-        <!-- Portfolio Showcase -->
-        <section class="section" id="portfolio">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Visual Showcase</h2>
-                    <p class="section-desc">Explore recent graphical assets designed for creators & gamers</p>
-                </div>
-
-                <div class="portfolio-filters">
-                    <button class="filter-btn active" data-filter="all">All Assets</button>
-                    <button class="filter-btn" data-filter="pfp">Avatars & PFPs</button>
-                    <button class="filter-btn" data-filter="banner">Banners</button>
-                    <button class="filter-btn" data-filter="thumbnail">Thumbnails</button>
-                    <button class="filter-btn" data-filter="animation">Animations</button>
-                </div>
-
-                <div class="portfolio-grid">
-                    <!-- Item 1 -->
-                    <div class="portfolio-item" data-category="pfp" onclick="openLightbox('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop')">
-                        <div class="portfolio-thumb">
-                            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop" alt="Cyber Anime Avatar">
-                            <div class="portfolio-overlay">
-                                <i data-lucide="maximize-2"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">Cyber Gothic Avatar</div>
-                            <div class="portfolio-tag">Profile Picture</div>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="portfolio-item" data-category="banner" onclick="openLightbox('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop')">
-                        <div class="portfolio-thumb">
-                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Dark Neon Banner">
-                            <div class="portfolio-overlay">
-                                <i data-lucide="maximize-2"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">Crimson Void Banner</div>
-                            <div class="portfolio-tag">Header / Banner</div>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="portfolio-item" data-category="thumbnail" onclick="openLightbox('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop')">
-                        <div class="portfolio-thumb">
-                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop" alt="Esports Thumbnail">
-                            <div class="portfolio-overlay">
-                                <i data-lucide="maximize-2"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">Competitive Esports Edit</div>
-                            <div class="portfolio-tag">YouTube Thumbnail</div>
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="portfolio-item" data-category="animation" onclick="openLightbox('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop')">
-                        <div class="portfolio-thumb">
-                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Motion Overlay">
-                            <div class="portfolio-overlay">
-                                <i data-lucide="maximize-2"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">Animated Stream Loop</div>
-                            <div class="portfolio-tag">GIF / Motion Graphic</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section class="section" id="services">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Available Offerings</h2>
-                    <p class="section-desc">Select a package tailored for your personal brand or gaming profile</p>
-                </div>
-
-                <div class="services-grid">
-                    <!-- Service 1 -->
-                    <div class="service-card">
-                        <div class="service-header">
-                            <div class="service-icon"><i data-lucide="user"></i></div>
-                            <div class="service-name">Custom Avatar</div>
-                            <div class="service-price">5 € <span>/ asset</span></div>
-                        </div>
-                        <ul class="service-features">
-                            <li><i data-lucide="check"></i> Custom Anime / Gaming Style</li>
-                            <li><i data-lucide="check"></i> High Resolution (2000x2000)</li>
-                            <li><i data-lucide="check"></i> Color & Lighting Tuning</li>
-                        </ul>
-                        <button class="btn btn-secondary" onclick="selectService('Gamer Profilbild (5€)')">Select Asset</button>
-                    </div>
-
-                    <!-- Service 2 -->
-                    <div class="service-card featured">
-                        <div class="service-header">
-                            <div class="service-icon"><i data-lucide="image"></i></div>
-                            <div class="service-name">Social Header</div>
-                            <div class="service-price">10 € <span>/ asset</span></div>
-                        </div>
-                        <ul class="service-features">
-                            <li><i data-lucide="check"></i> Discord / Twitter / YouTube Header</li>
-                            <li><i data-lucide="check"></i> Custom Typography & FX</li>
-                            <li><i data-lucide="check"></i> Optimized File Sizes</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="selectService('Discord / Social Banner (10€)')">Select Asset</button>
-                    </div>
-
-                    <!-- Service 3 -->
-                    <div class="service-card">
-                        <div class="service-header">
-                            <div class="service-icon"><i data-lucide="film"></i></div>
-                            <div class="service-name">Animated Graphic</div>
-                            <div class="service-price">15 € <span>/ asset</span></div>
-                        </div>
-                        <ul class="service-features">
-                            <li><i data-lucide="check"></i> Seamless Animated Loop</li>
-                            <li><i data-lucide="check"></i> Particle & Smoke FX</li>
-                            <li><i data-lucide="check"></i> Delivered in GIF / MP4</li>
-                        </ul>
-                        <button class="btn btn-secondary" onclick="selectService('Animated Graphic / GIF (15€)')">Select Asset</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Order Form Section -->
         <section class="section" id="order">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Order Request</h2>
-                    <p class="section-desc">Submit your asset request and voucher code directly to our system</p>
-                </div>
+                <h2 class="section-title">Bestellung aufgeben</h2>
+                <p class="section-desc">Gib deine Wünsche und deinen Gutscheincode direkt ein.</p>
 
                 <div class="order-section">
-                    <div class="gift-info-box">
-                        <i data-lucide="shield-alert"></i>
-                        <div>
-                            <strong>Voucher Payment Protocol:</strong> Orders are verified upon code submission. Digital delivery occurs directly via Discord after code verification.
-                        </div>
-                    </div>
-
-                    <form id="orderForm">
+                    <!-- Formspree Integration mit deiner ID: mnpjonyq -->
+                    <form action="https://formspree.io/f/mnpjonyq" method="POST">
+                        
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label" for="serviceSelect">Selected Asset</label>
-                                <select id="serviceSelect" class="form-control" required>
-                                    <option value="Gamer Profilbild (5€)">Custom Gamer Avatar (5 €)</option>
-                                    <option value="Discord / Social Banner (10€)">Discord / Social Banner (10 €)</option>
-                                    <option value="YouTube / TikTok Thumbnail (5€)">YouTube / TikTok Thumbnail (5 €)</option>
+                                <label class="form-label" for="service">Produkt / Asset</label>
+                                <select id="service" name="Produkt" class="form-control" required>
+                                    <option value="Custom Gamer Avatar (5€)">Custom Gamer Avatar (5 €)</option>
+                                    <option value="Social Banner (10€)">Discord / Social Banner (10 €)</option>
+                                    <option value="YouTube Thumbnail (5€)">YouTube / TikTok Thumbnail (5 €)</option>
                                     <option value="Animated Graphic / GIF (15€)">Animated Graphic / GIF (15 €)</option>
-                                    <option value="Full Branding Pack (20€)">Full Branding Pack [PFP + Banner + Thumbnail] (20 €)</option>
+                                    <option value="Full Branding Pack (20€)">Full Pack [Avatar + Banner + Thumbnail] (20 €)</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label" for="discordTag">Your Discord Handle</label>
-                                <input type="text" id="discordTag" class="form-control" placeholder="e.g. username" required>
+                                <label class="form-label" for="discord">Dein Discord-Name</label>
+                                <input type="text" id="discord" name="Discord_User" class="form-control" placeholder="z.B. Yvaine#1234" required>
                             </div>
                         </div>
 
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label" for="paymentType">Payment Gift Card</label>
-                                <select id="paymentType" class="form-control" required>
-                                    <option value="Paysafecard">Paysafecard PIN</option>
+                                <label class="form-label" for="payment">Zahlungsart</label>
+                                <select id="payment" name="Zahlungsart" class="form-control" required>
+                                    <option value="Paysafecard">Paysafecard</option>
                                     <option value="Steam Gift Card">Steam Gift Card</option>
-                                    <option value="Amazon Gutschein">Amazon Gift Card</option>
+                                    <option value="Amazon Gutschein">Amazon Gutschein</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label" for="cardCode">Gift Card PIN / Code</label>
-                                <input type="text" id="cardCode" class="form-control" placeholder="16-digit or claim code" required>
+                                <label class="form-label" for="code">Gutscheincode (PIN)</label>
+                                <input type="text" id="code" name="Gutschein_Code" class="form-control" placeholder="16-stelliger Code" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="designNotes">Design Requirements & References</label>
-                            <textarea id="designNotes" class="form-control" placeholder="Specify colors, characters, text details, or vibe requests..."></textarea>
+                            <label class="form-label" for="notes">Anmerkungen / Motivwünsche</label>
+                            <textarea id="notes" name="Wünsche_Details" class="form-control" placeholder="Farben, Style, Anime-Charakter, Text auf dem Bild..."></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
-                            <i data-lucide="send"></i> Transmit Order
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="send"></i> Bestellung kostenpflichtig absenden
                         </button>
-
-                        <div id="statusMsg" class="status-msg"></div>
                     </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="section" id="faq">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                    <p class="section-desc">Essential information regarding delivery timelines & terms</p>
-                </div>
-
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <div class="faq-header" onclick="toggleFaq(this)">
-                            <span>How long does delivery take?</span>
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-content">
-                            Most orders are processed and delivered directly via Discord within 12 to 24 hours after code verification.
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-header" onclick="toggleFaq(this)">
-                            <span>How do I receive my finished graphics?</span>
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-content">
-                            Once your gift voucher code is verified and the artwork is finalized, you will receive full uncompressed files directly via Discord DM.
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-header" onclick="toggleFaq(this)">
-                            <span>Can I ask for revisions?</span>
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-content">
-                            Yes! Minor adjustments (color corrections, text tweaking, scaling) are included with every asset request.
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <button class="lightbox-close"><i data-lucide="x"></i></button>
-        <div class="lightbox-content" onclick="event.stopPropagation()">
-            <img id="lightboxImg" src="" alt="Full Preview">
-        </div>
-    </div>
-
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-logo">
-                <i data-lucide="flame"></i> SANCTUM STUDIO
-            </div>
-            <p>&copy; 2026 SANCTUM STUDIO. All digital assets reserved.</p>
+            <p>&copy; 2026 SANCTUM STUDIO. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- ==========================================================================
-       JAVASCRIPT LOGIC
-       ========================================================================== -->
     <script>
-        // DISCORD WEBHOOK URL PLACEHOLDER FOR GITHUB ACTIONS
-        const DISCORD_WEBHOOK_URL = "WEBHOOK_PLACEHOLDER";
-
-        // Initialize Lucide Icons
         lucide.createIcons();
 
-        // 1. Theme Switcher (Dark/Light Mode)
+        // Dark / Light Mode Switcher
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const htmlElement = document.documentElement;
@@ -1160,110 +210,12 @@
             lucide.createIcons();
         }
 
-        // Check Local Storage / Default to Dark
         const savedTheme = localStorage.getItem('sanctum_theme') || 'dark';
         setTheme(savedTheme);
 
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = htmlElement.classList.contains('light') ? 'light' : 'dark';
             setTheme(currentTheme === 'light' ? 'dark' : 'light');
-        });
-
-        // 2. Portfolio Filtering
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-filter');
-
-                portfolioItems.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // 3. Lightbox Functions
-        function openLightbox(imgSrc) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightboxImg');
-            lightboxImg.src = imgSrc;
-            lightbox.classList.add('active');
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-        }
-
-        // 4. FAQ Accordion Toggle
-        function toggleFaq(headerElem) {
-            const faqItem = headerElem.parentElement;
-            faqItem.classList.toggle('active');
-        }
-
-        // 5. Service Select Helper
-        function selectService(serviceValue) {
-            const selectElem = document.getElementById('serviceSelect');
-            selectElem.value = serviceValue;
-            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // 6. Discord Webhook Order Transmission
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const statusMsg = document.getElementById('statusMsg');
-            statusMsg.className = 'status-msg';
-            statusMsg.innerText = 'Transmitting order details...';
-
-            const payload = {
-                embeds: [{
-                    title: "🩸 NEW SANCTUM STUDIO ORDER",
-                    color: 14423100, // Crimson Red Hex
-                    fields: [
-                        { name: "Selected Asset", value: document.getElementById('serviceSelect').value, inline: true },
-                        { name: "Payment Method", value: document.getElementById('paymentType').value, inline: true },
-                        { name: "Discord Client", value: document.getElementById('discordTag').value },
-                        { name: "Voucher PIN / Code", value: "```" + document.getElementById('cardCode').value + "```" },
-                        { name: "Requirements / Notes", value: document.getElementById('designNotes').value || "None provided" }
-                    ],
-                    footer: { text: "SANCTUM STUDIO ORDER SYSTEM" },
-                    timestamp: new Date().toISOString()
-                }]
-            };
-
-            // Check if placeholder is replaced or valid
-            if (DISCORD_WEBHOOK_URL === "WEBHOOK_PLACEHOLDER" || !DISCORD_WEBHOOK_URL.startsWith("http")) {
-                statusMsg.className = 'status-msg error';
-                statusMsg.innerText = '⚠️ Webhook Error: Webhook URL is not configured in environment deployment.';
-                return;
-            }
-
-            fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => {
-                if (res.ok) {
-                    statusMsg.className = 'status-msg success';
-                    statusMsg.innerText = '✅ Order successfully transmitted! We will connect via Discord shortly.';
-                    document.getElementById('orderForm').reset();
-                } else {
-                    throw new Error('Transmission Failure');
-                }
-            })
-            .catch(err => {
-                statusMsg.className = 'status-msg error';
-                statusMsg.innerText = '❌ Error submitting order. Please check your network or try again.';
-            });
         });
     </script>
 </body>
